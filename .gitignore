@@ -123,3 +123,7 @@ dist/
 
 # OS files
 .DS_Store
+
+# Scratch / notes
+implementation-notes.html
+*.iml

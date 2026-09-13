@@ -203,12 +203,12 @@ const LoadingSkeleton = () => (
   <div className="toyland-page min-h-screen" style={{ paddingTop: '5rem' }}>
     <div style={{ maxWidth: '780px', margin: '0 auto', padding: '0 1.5rem' }}>
       <div className="animate-pulse space-y-6">
-        <div style={{ height: '2rem', width: '30%', background: 'rgba(255,255,255,0.06)', borderRadius: '0.5rem' }} />
-        <div style={{ height: '4rem', width: '80%', background: 'rgba(255,255,255,0.08)', borderRadius: '0.5rem' }} />
-        <div style={{ height: '1rem', width: '40%', background: 'rgba(255,255,255,0.05)', borderRadius: '0.5rem' }} />
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+        <div style={{ height: '2rem', width: '30%', background: 'rgba(139,69,30,0.10)', borderRadius: '0.5rem' }} />
+        <div style={{ height: '4rem', width: '80%', background: 'rgba(139,69,30,0.13)', borderRadius: '0.5rem' }} />
+        <div style={{ height: '1rem', width: '40%', background: 'rgba(139,69,30,0.08)', borderRadius: '0.5rem' }} />
+        <div style={{ height: '1px', background: 'rgba(139,69,30,0.10)' }} />
         {[...Array(6)].map((_, i) => (
-          <div key={i} style={{ height: '1rem', width: `${70 + Math.random() * 25}%`, background: 'rgba(255,255,255,0.05)', borderRadius: '0.5rem' }} />
+          <div key={i} style={{ height: '1rem', width: `${70 + (i % 3) * 8}%`, background: 'rgba(139,69,30,0.08)', borderRadius: '0.5rem' }} />
         ))}
       </div>
     </div>
@@ -265,10 +265,6 @@ export const PostDetailPage = () => {
 
       <div className="toyland-page" style={{ minHeight: '100vh', paddingBottom: '6rem', paddingTop: '5rem' }}>
 
-        {/* ── Aurora background ── */}
-        <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
-          {/* No extra blobs needed — body bg is warm peach */}
-        </div>
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '780px', margin: '0 auto', padding: '0 1.5rem' }}>
 

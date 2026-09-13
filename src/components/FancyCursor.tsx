@@ -22,6 +22,7 @@ export const FancyCursor = () => {
   const pos = useRef({ x: -100, y: -100 });
   const outerPos = useRef({ x: -100, y: -100 });
   const rafRef = useRef<number>(0);
+  const trailRafRef = useRef<number>(0);
   const trailRef = useRef<TrailDot[]>([]);
   const counterRef = useRef(0);
   const [trail, setTrail] = useState<TrailDot[]>([]);
@@ -40,7 +41,7 @@ export const FancyCursor = () => {
         innerRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
       }
 
-      // Trail particles
+      // Trail particles — update ref immediately, batch React state via RAF
       const colorIndex = Math.floor(Math.random() * TRAIL_COLORS.length);
       const newDot: TrailDot = {
         x: e.clientX,
@@ -51,7 +52,11 @@ export const FancyCursor = () => {
         color: TRAIL_COLORS[colorIndex],
       };
       trailRef.current = [newDot, ...trailRef.current].slice(0, TRAIL_LENGTH);
-      setTrail([...trailRef.current]);
+      // Schedule a single React update per frame (not per mousemove)
+      cancelAnimationFrame(trailRafRef.current);
+      trailRafRef.current = requestAnimationFrame(() => {
+        setTrail([...trailRef.current]);
+      });
 
       // Hover detection
       const el = document.elementFromPoint(e.clientX, e.clientY);

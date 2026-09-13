@@ -105,7 +105,7 @@ const ParticleField = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const colors = ['#7c3aed', '#0ea5e9', '#10b981', '#f59e0b', '#ec4899', '#ff6b6b', '#fb923c'];
-    const particles = Array.from({ length: 45 }, () => ({
+    const particles = Array.from({ length: 30 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 0.25,
@@ -115,7 +115,9 @@ const ParticleField = () => {
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
     let animId: number;
+    let frame = 0;
     const animate = () => {
+      frame++;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => {
         p.x = (p.x + p.vx + canvas.width) % canvas.width;
@@ -127,21 +129,23 @@ const ParticleField = () => {
         ctx.fill();
         ctx.globalAlpha = 1;
       });
-      // Connector lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 100) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = particles[i].color;
-            ctx.globalAlpha = (1 - d / 100) * 0.1;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-            ctx.globalAlpha = 1;
+      // Connector lines — only recalculate every 2nd frame
+      if (frame % 2 === 0) {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 100) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = particles[i].color;
+              ctx.globalAlpha = (1 - d / 100) * 0.1;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+              ctx.globalAlpha = 1;
+            }
           }
         }
       }
@@ -405,7 +409,7 @@ export const PortfolioPage = () => {
           <span className="flex items-center gap-1" style={{ color: '#8b5a40' }}>
             Built for curiosity
             <span
-              className="inline-block w-[2px] h-[13px] bg-violet-500 ml-1"
+              className="inline-block w-[2px] h-[13px] bg-[#e07a3a] ml-1"
               style={{ opacity: cursorBlink ? 1 : 0, transition: 'opacity 0.1s' }}
             />
           </span>

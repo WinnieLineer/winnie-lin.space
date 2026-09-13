@@ -13,8 +13,17 @@ export interface Post {
   content: string;
 }
 
+// Typed frontmatter shape
+interface FrontmatterData {
+  title?: string;
+  excerpt?: string;
+  date?: string;
+  tags?: string | string[];
+  [key: string]: string | string[] | undefined; // allow dynamic key assignment during parsing
+}
+
 // Custom lightweight frontmatter parser
-function parseFrontmatter(fileContent: string): { data: any; content: string } {
+function parseFrontmatter(fileContent: string): { data: FrontmatterData; content: string } {
   const frontmatterRegex = /^---\r?\n([\s\S]+?)\r?\n---\r?\n/;
   const match = frontmatterRegex.exec(fileContent);
 
@@ -24,7 +33,7 @@ function parseFrontmatter(fileContent: string): { data: any; content: string } {
 
   const frontmatter = match[1];
   const content = fileContent.slice(match[0].length);
-  const data: { [key: string]: any } = {};
+  const data: FrontmatterData = {};
 
   frontmatter.split(/\r?\n/).forEach(line => {
     const [key, ...valueParts] = line.split(':');
@@ -83,7 +92,10 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
       `${GITHUB_API_URL}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${slug}.md`
     );
 
-    const fileContent = atob(file.content);
+    // Safely decode Base64 content that may include multi-byte UTF-8 (Chinese, emoji, etc.)
+    const rawBase64 = file.content.replace(/\s/g, '');
+    const bytes = Uint8Array.from(atob(rawBase64), c => c.charCodeAt(0));
+    const fileContent = new TextDecoder('utf-8').decode(bytes);
     const { data, content } = parseFrontmatter(fileContent);
 
     return {
@@ -91,7 +103,11 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
       title: data.title || 'Untitled',
       excerpt: data.excerpt || '',
       date: data.date || new Date().toISOString(),
-      tags: data.tags || [],
+      tags: Array.isArray(data.tags)
+        ? data.tags
+        : typeof data.tags === 'string'
+          ? data.tags.split(',').map(t => t.trim()).filter(Boolean)
+          : [],
       content,
     };
 

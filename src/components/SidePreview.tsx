@@ -13,25 +13,30 @@ const NoiseCanvas: React.FC = () => {
 
     const W = canvas.width = 300;
     const H = canvas.height = 200;
+    let frameCount = 0;
 
     const drawNoise = () => {
-      const imageData = ctx.createImageData(W, H);
-      const d = imageData.data;
+      frameCount++;
+      // Throttle to ~10fps (skip 5 out of every 6 frames)
+      if (frameCount % 6 === 0) {
+        const imageData = ctx.createImageData(W, H);
+        const d = imageData.data;
 
-      for (let i = 0; i < d.length; i += 4) {
-        const rand = Math.random() * 255;
-        d[i] = rand;   // R
-        d[i+1] = rand; // G
-        d[i+2] = rand; // B
-        d[i+3] = Math.random() < 0.03 ? 40 : 0; // Only ~3% pixels visible
-      }
+        for (let i = 0; i < d.length; i += 4) {
+          const rand = Math.random() * 255;
+          d[i] = rand;   // R
+          d[i+1] = rand; // G
+          d[i+2] = rand; // B
+          d[i+3] = Math.random() < 0.03 ? 40 : 0; // Only ~3% pixels visible
+        }
 
-      ctx.putImageData(imageData, 0, 0);
+        ctx.putImageData(imageData, 0, 0);
 
-      // Scanlines
-      ctx.fillStyle = 'rgba(0,0,0,0.12)';
-      for (let y = 0; y < H; y += 3) {
-        ctx.fillRect(0, y, W, 1);
+        // Scanlines
+        ctx.fillStyle = 'rgba(0,0,0,0.12)';
+        for (let y = 0; y < H; y += 3) {
+          ctx.fillRect(0, y, W, 1);
+        }
       }
 
       animRef.current = requestAnimationFrame(drawNoise);

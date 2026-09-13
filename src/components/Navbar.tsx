@@ -20,7 +20,7 @@ export const Navbar = () => {
     `text-base transition-colors duration-300 hover:text-[#ff5f7f] ${isActive ? (isHome ? 'text-white font-semibold' : 'text-[#7a3d22] font-semibold') : (isHome ? 'text-gray-400' : 'text-[#8b735f]')}`;
 
   const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `block text-2xl font-bold transition-colors duration-200 py-3 border-b border-white/8 hover:text-violet-300 ${isActive ? 'text-white' : 'text-gray-400'}`;
+    `block text-2xl font-bold transition-colors duration-200 py-3 border-b border-white/8 hover:text-[#ffb51b] ${isActive ? 'text-white' : 'text-gray-400'}`;
 
   const navLinks = [
     { to: '/',           label: 'Home' },
@@ -84,7 +84,7 @@ export const Navbar = () => {
         }}
       >
         <div className="flex flex-col justify-center h-full px-10 pb-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-violet-400 mb-8">Navigation</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-[#e07a3a] mb-8">Navigation</p>
           {navLinks.map(({ to, label }) => (
             <NavLink key={to} to={to} className={mobileLinkClass} end={to === '/'}>
               {label}
@@ -94,7 +94,7 @@ export const Navbar = () => {
           <div className="mt-12 pt-8 border-t border-white/10">
             <a
               href="mailto:hi@winnie-lin.space"
-              className="text-sm text-gray-500 hover:text-violet-300 transition-colors"
+              className="text-sm text-gray-500 hover:text-[#ffb51b] transition-colors"
             >
               hi@winnie-lin.space
             </a>
