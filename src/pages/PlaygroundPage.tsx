@@ -622,6 +622,42 @@ export const PlaygroundPage = () => {
             background: 'radial-gradient(ellipse, rgba(180,60,20,0.10) 0%, transparent 70%)', borderRadius: '50%' }} />
         </div>
 
+        {/* Model loading overlay */}
+        {!modelReady && (
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 20,
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: 18,
+            background: 'rgba(14,4,1,0.55)', backdropFilter: 'blur(2px)',
+            borderRadius: '12px',
+            opacity: 1,
+            transition: 'opacity 0.6s ease',
+            pointerEvents: 'none',
+          }}>
+            {/* Spinning ring */}
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
+              style={{ animation: 'spin 1.4s linear infinite', flexShrink: 0 }}>
+              <circle cx="24" cy="24" r="20" stroke="rgba(211,119,53,0.18)" strokeWidth="2"/>
+              <path d="M24 4 A20 20 0 0 1 44 24" stroke="rgba(224,122,58,0.85)" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{
+                fontFamily: 'monospace', fontSize: '11px',
+                color: 'rgba(255,180,80,0.80)', letterSpacing: '0.2em',
+                textTransform: 'uppercase', marginBottom: 6,
+              }}>
+                Initialising AI models
+              </p>
+              <p style={{
+                fontFamily: 'monospace', fontSize: '10px',
+                color: 'rgba(255,255,255,0.30)', letterSpacing: '0.1em',
+              }}>
+                face · hand landmarkers loading…
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* HUD Indicator (top-left) */}
         {cameraOn && (
           <div style={{
@@ -739,8 +775,40 @@ export const PlaygroundPage = () => {
         )}
       </div>
 
+      {/* Model status pill */}
+      <div style={{
+        marginTop: '12px', display: 'flex', alignItems: 'center', gap: 8,
+        padding: '5px 14px', borderRadius: '100px',
+        border: modelReady
+          ? '1px solid rgba(100,200,100,0.20)'
+          : '1px solid rgba(211,119,53,0.25)',
+        background: modelReady
+          ? 'rgba(60,160,60,0.05)'
+          : 'rgba(211,119,53,0.07)',
+        transition: 'all 0.6s ease',
+        zIndex: 2,
+      }}>
+        {!modelReady && (
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+            style={{ animation: 'spin 1.2s linear infinite', flexShrink: 0 }}>
+            <circle cx="5" cy="5" r="4" stroke="rgba(211,119,53,0.3)" strokeWidth="1.2"/>
+            <path d="M5 1 A4 4 0 0 1 9 5" stroke="rgba(224,122,58,0.9)" strokeWidth="1.2" strokeLinecap="round"/>
+          </svg>
+        )}
+        {modelReady && (
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80' }} />
+        )}
+        <span style={{
+          fontFamily: 'monospace', fontSize: '9px',
+          letterSpacing: '0.15em', textTransform: 'uppercase',
+          color: modelReady ? 'rgba(100,220,100,0.70)' : 'rgba(211,160,80,0.75)',
+        }}>
+          {modelReady ? 'AI ready' : 'Loading models…'}
+        </span>
+      </div>
+
       {/* Controls */}
-      <div style={{ marginTop: '28px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', zIndex: 2 }}>
+      <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', zIndex: 2 }}>
         {!cameraOn ? (
           <CameraButton loading={loading} modelReady={modelReady} onClick={startCamera} />
         ) : (
