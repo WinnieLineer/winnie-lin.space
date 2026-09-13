@@ -70,7 +70,7 @@ export const HomePage = () => {
           position: 'fixed', inset: 0, zIndex: 9998,
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center', gap: '20px',
-          background: '#0a0a0f',
+          background: '#F9D3B7',
           opacity: fadeOut ? 0 : 1,
           transition: 'opacity 0.6s ease',
           pointerEvents: fadeOut ? 'none' : 'all',
@@ -79,17 +79,17 @@ export const HomePage = () => {
           <div style={{ position: 'relative', width: 64, height: 64 }}>
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none"
               style={{ animation: 'spin3d 1.4s linear infinite', position: 'absolute', inset: 0 }}>
-              <circle cx="32" cy="32" r="28" stroke="rgba(167,139,250,0.15)" strokeWidth="2"/>
-              <path d="M32 4 A28 28 0 0 1 60 32" stroke="rgba(167,139,250,0.9)" strokeWidth="2.5" strokeLinecap="round"/>
-              <path d="M32 4 A28 28 0 0 1 52 14" stroke="rgba(96,165,250,0.5)" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="32" cy="32" r="28" stroke="rgba(139,69,30,0.18)" strokeWidth="2"/>
+              <path d="M32 4 A28 28 0 0 1 60 32" stroke="rgba(230,93,73,0.85)" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M32 4 A28 28 0 0 1 52 14" stroke="rgba(255,181,27,0.55)" strokeWidth="2" strokeLinecap="round"/>
             </svg>
             {/* Pulsing centre dot */}
             <div style={{
               position: 'absolute', top: '50%', left: '50%',
               transform: 'translate(-50%,-50%)',
               width: 8, height: 8, borderRadius: '50%',
-              background: 'rgba(167,139,250,0.8)',
-              boxShadow: '0 0 12px rgba(167,139,250,0.6)',
+              background: 'rgba(230,93,73,0.75)',
+              boxShadow: '0 0 14px rgba(230,93,73,0.4)',
               animation: 'pulse3d 1.8s ease-in-out infinite',
             }} />
           </div>
@@ -97,7 +97,7 @@ export const HomePage = () => {
             <p style={{
               fontFamily: 'system-ui, sans-serif',
               fontSize: '11px', letterSpacing: '0.22em',
-              textTransform: 'uppercase', color: 'rgba(167,139,250,0.75)',
+              textTransform: 'uppercase', color: 'rgba(139,69,30,0.70)',
               marginBottom: '6px',
             }}>
               Loading 3D Scene
@@ -105,7 +105,7 @@ export const HomePage = () => {
             <p style={{
               fontFamily: 'system-ui, sans-serif',
               fontSize: '10px', letterSpacing: '0.1em',
-              color: 'rgba(255,255,255,0.22)',
+              color: 'rgba(139,69,30,0.38)',
             }}>
               Hang tight…
             </p>
